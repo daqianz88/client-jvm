@@ -1,36 +1,51 @@
+val ktor_version: String by project
+val kotlin_version: String by project
+val logback_version: String by project
+
 buildscript {
     repositories {
+        mavenLocal()
         google()
         jcenter()
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.61")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.0")
     }
 }
 
-plugins {
-    `java-library`
-    kotlin("jvm") version "1.3.61"
-    kotlin("plugin.serialization") version "1.3.61"
-    kotlin("kapt") version "1.3.61"
-    maven
+repositories {
+    mavenLocal()
+    mavenCentral()
 }
 
-group = "com.github.mmoghaddam385"
+plugins {
+    application
+    kotlin("jvm") version "1.6.0"
+    `java-library`
+    kotlin("plugin.serialization") version "1.6.0"
+    kotlin("kapt") version "1.6.0"
+    `maven-publish`
+}
+
+group = "com.egovn"
+version = "1.0-SNAPSHOT"
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib-jdk8
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0")
 
-    val ktorVersion = "1.3.1"
+    implementation("com.egovn:vpbase:1.0-SNAPSHOT")
+
+    val ktorVersion = "1.6.0"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-websockets:$ktorVersion")
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization-jvm:$ktorVersion")
 
     // Annotation processor that generates Java builders for data classes
-    val ktBuilderVersion = "1.1.0"
+    val ktBuilderVersion = "1.2.1"
     implementation("com.thinkinglogic.builder:kotlin-builder-annotation:$ktBuilderVersion")
     kapt("com.thinkinglogic.builder:kotlin-builder-processor:$ktBuilderVersion")
 
@@ -58,5 +73,17 @@ tasks {
     artifacts {
         add("archives", sourcesJar)
         add("archives", jar)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.egovn"
+            artifactId = "polygon"
+            version = "1.0-SNAPSHOT"
+
+            from(components["java"])
+        }
     }
 }

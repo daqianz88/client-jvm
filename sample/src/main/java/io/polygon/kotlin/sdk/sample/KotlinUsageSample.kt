@@ -1,7 +1,8 @@
 package io.polygon.kotlin.sdk.sample
 
+import com.egovn.polygon.PolygonSystem
 import com.tylerthrailkill.helpers.prettyprint.pp
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.cio.*
 import io.polygon.kotlin.sdk.DefaultJvmHttpClientProvider
 import io.polygon.kotlin.sdk.DefaultOkHttpClientProvider
 import io.polygon.kotlin.sdk.HttpClientProvider
@@ -49,7 +50,7 @@ val cioClientProvider: HttpClientProvider
 
 
 suspend fun main() {
-    val polygonKey = System.getenv("POLYGON_API_KEY")
+    val polygonKey = PolygonSystem.I.config!!.apiKey
 
     if (polygonKey.isNullOrEmpty()) {
         println("Make sure you set your polygon API key in the POLYGON_API_KEY environment variable!")

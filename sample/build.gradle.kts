@@ -2,10 +2,18 @@ plugins {
     kotlin("jvm")
 }
 
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
 dependencies {
     implementation(project(":"))
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61")
+
+    implementation("com.egovn:vpbase:1.0-SNAPSHOT")
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
 
     // For custom interceptors on defaultOkHttpClientProvider

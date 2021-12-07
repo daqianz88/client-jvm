@@ -1,5 +1,6 @@
 package io.polygon.kotlin.sdk.sample;
 
+import com.egovn.polygon.PolygonSystem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -21,7 +22,8 @@ import io.polygon.kotlin.sdk.websocket.PolygonWebSocketSubscription;
 public class JavaUsageSample {
 
     public static void main(String[] args) throws InterruptedException {
-        String polygonKey = System.getenv("POLYGON_API_KEY");
+        String polygonKey = PolygonSystem.getI().getConfig().apiKey;
+
         if (polygonKey == null || polygonKey.isEmpty()) {
             System.err.println("Make sure you set your polygon API key in the POLYGON_API_KEY environment variable!");
             System.exit(1);
