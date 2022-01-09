@@ -54,6 +54,7 @@ dependencies {
 
 allprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
     }
@@ -80,7 +81,7 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "com.egovn"
-            artifactId = "polygon"
+            artifactId = "polygon_client"
             version = "1.0-SNAPSHOT"
 
             from(components["java"])

@@ -14,7 +14,9 @@ dependencies {
     implementation("com.egovn:vpbase:1.0-SNAPSHOT")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC")
+
 
     // For custom interceptors on defaultOkHttpClientProvider
     implementation("com.squareup.okhttp3:okhttp:4.7.2")

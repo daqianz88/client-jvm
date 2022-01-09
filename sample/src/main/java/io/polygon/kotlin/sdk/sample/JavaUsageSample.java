@@ -3,6 +3,7 @@ package io.polygon.kotlin.sdk.sample;
 import com.egovn.polygon.PolygonSystem;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -20,6 +21,9 @@ import io.polygon.kotlin.sdk.websocket.PolygonWebSocketMessage;
 import io.polygon.kotlin.sdk.websocket.PolygonWebSocketSubscription;
 
 public class JavaUsageSample {
+
+    static String[] STOCKS = {"BABA", "AMZN", "TSLA", "AAPL", "GOOG", "GOOGL", "MSFT", "NFLX", "ADBE" };
+    static String[] COMPOSITES = {"DJIA", "IXIC"};
 
     public static void main(String[] args) throws InterruptedException {
         String polygonKey = PolygonSystem.getI().getConfig().apiKey;
@@ -64,7 +68,7 @@ public class JavaUsageSample {
     public static void websocketSample(String polygonKey) {
         PolygonWebSocketClient client = new PolygonWebSocketClient(
                 polygonKey,
-                PolygonWebSocketCluster.Crypto,
+                PolygonWebSocketCluster.Stocks,
                 new DefaultPolygonWebSocketListener() {
                     @Override
                     public void onReceive(@NotNull PolygonWebSocketClient client, @NotNull PolygonWebSocketMessage message) {
@@ -85,12 +89,30 @@ public class JavaUsageSample {
 
         client.connectBlocking();
 
-        List<PolygonWebSocketSubscription> subs = Collections.singletonList(
-                new PolygonWebSocketSubscription(PolygonWebSocketChannel.Crypto.Level2Books.INSTANCE, "BTC-USD"));
+//        List<PolygonWebSocketSubscription> subs = Collections.singletonList(
+//                new PolygonWebSocketSubscription(PolygonWebSocketChannel.Crypto.Level2Books.INSTANCE, "BTC-USD"));
+
+
+        List<PolygonWebSocketSubscription> subs = new ArrayList();
+
+        for(int i=0;i<STOCKS.length;i++){
+            subs.add(new PolygonWebSocketSubscription(PolygonWebSocketChannel.Stocks.Trades.INSTANCE, STOCKS[i]));
+            subs.add(new PolygonWebSocketSubscription(PolygonWebSocketChannel.Stocks.Quotes.INSTANCE, STOCKS[i]));
+        }
+
+        for(int i=0;i<COMPOSITES.length;i++){
+            subs.add(new PolygonWebSocketSubscription(PolygonWebSocketChannel.Stocks.Quotes.INSTANCE, COMPOSITES[i]));
+        }
+
+        subs.add(new PolygonWebSocketSubscription(PolygonWebSocketChannel.Stocks.Trades.INSTANCE, "BABA"));
+        subs.add(new PolygonWebSocketSubscription(PolygonWebSocketChannel.Stocks.Quotes.INSTANCE, "BABA"));
+
+
+
         client.subscribeBlocking(subs);
 
         try {
-            Thread.sleep(4000);
+            Thread.sleep(60000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

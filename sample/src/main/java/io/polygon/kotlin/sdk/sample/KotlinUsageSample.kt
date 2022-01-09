@@ -80,7 +80,7 @@ suspend fun main() {
 suspend fun websocketSample(polygonKey: String) {
     val websocketClient = PolygonWebSocketClient(
         polygonKey,
-        PolygonWebSocketCluster.Crypto,
+        PolygonWebSocketCluster.Stocks,
         object : PolygonWebSocketListener {
             override fun onAuthenticated(client: PolygonWebSocketClient) {
                 println("Connected!")
@@ -108,9 +108,14 @@ suspend fun websocketSample(polygonKey: String) {
         },
         httpClientProvider = cioClientProvider)
 
+//    val subscriptions = listOf(
+//        PolygonWebSocketSubscription(PolygonWebSocketChannel.Crypto.Trades, "ETH-USD"),
+//        PolygonWebSocketSubscription(PolygonWebSocketChannel.Crypto.Trades, "BTC-USD")
+//    )
+
     val subscriptions = listOf(
-        PolygonWebSocketSubscription(PolygonWebSocketChannel.Crypto.Trades, "ETH-USD"),
-        PolygonWebSocketSubscription(PolygonWebSocketChannel.Crypto.Trades, "BTC-USD")
+            PolygonWebSocketSubscription(PolygonWebSocketChannel.Stocks.Quotes, "BABA"),
+            //PolygonWebSocketSubscription(PolygonWebSocketChannel.Crypto.Trades, "BTC-USD")
     )
 
     websocketClient.connect()
